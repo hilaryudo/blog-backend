@@ -127,4 +127,4 @@ Backend Stack
 
 
 7. Hosted Link
-    Hosted Api URL: 
+    Hosted Api URL: https://blog-backend-l5x9.onrender.com
