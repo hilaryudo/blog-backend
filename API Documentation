@@ -1,0 +1,173 @@
+Api Documentation - Postman Collection
+This postman documentation contains all endpoints for the Authentication, Authorization and Product CRUD functionalities of this API.
+
+
+URL: 
+
+AUTHENTICATION ROUTES
+
+1. Register User - POST
+Creates a new user account
+Passwords are hashed before storing
+
+REQUEST BODY(JSON)
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "123456",
+  "role": "admin"   or "role": "user"
+}
+
+SUCCESS RESPONSE
+{
+  "success": "true",
+  "message": "User registered successfully"
+}
+
+2. Login User - POST
+Authenticates user and returns a JWT token
+
+REQUEST BODY(JSON)
+{
+  "email": "john@example.com",
+  "password": "123456"
+}
+
+SUCCESS RESPONSE
+{
+  "success": "true",
+  "message": "Login successful",
+  "token": "jwt_token_here"
+}
+
+ROLE-BASED ACCESS CONTROL
+
+The routes;
+ 1. Get user
+ 	Token : regular users allowed and admin allowed which says 'welcome user'
+
+ 2. Get admin
+	Token : only admin allowed which says 'welcome admin'
+
+ 3. Delete User
+	Token: deletes user(admin only)
+
+PRODUCT ROUTES
+
+1. Create Blog (ADMIN ONLY)
+POST
+Creates a new product. Only admins can access.
+In Headers: Authorization: Bearer (token)
+
+REQUEST BODY
+{
+   "topic": "Poverty rate in Nigeria",
+    "content": "The rate of poor masses in Nigeria keeps increasing daily. ",
+    "category": "Money Talks"
+
+}
+
+SUCCESS RESPONSE
+{
+    "success": true,
+    "blog": {
+        "topic": "Poverty rate in Nigeria",
+        "content": "The rate of poor masses in Nigeria keeps increasing daily. ",
+        "category": "Money Talks",
+        "_id": "6917059c8b4fd7dde15315ff",
+        "createdAt": "2025-11-14T10:34:04.401Z",
+        "updatedAt": "2025-11-14T10:34:04.401Z",
+        "__v": 0
+    }
+}
+
+2. Get all blogs (admin and user)
+GET 
+Fetches all available blogs. Authentication needed by user or admin
+
+SUCCESS RESPONSE
+{
+    "success": true,
+    "blogs": [
+        {
+            "_id": "6915cba0f55ede99f44e9360",
+            "topic": " why women clothings are expensive",
+            "content": "women clothing is the peak topic in the fashion industry",
+            "category": "fashion",
+            "createdAt": "2025-11-13T12:14:24.054Z",
+            "updatedAt": "2025-11-13T12:18:20.628Z",
+            "__v": 0
+        },
+        {
+            "_id": "6917059c8b4fd7dde15315ff",
+            "topic": "Poverty rate in Nigeria",
+            "content": "The rate of poor masses in Nigeria keeps increasing daily. ",
+            "category": "Money Talks",
+            "createdAt": "2025-11-14T10:34:04.401Z",
+            "updatedAt": "2025-11-14T10:34:04.401Z",
+            "__v": 0
+        }
+    ]
+}
+
+3. Get Single Blog (user and admin)
+GET
+Fetch a single blog by ID. Authentication needed by user or admin
+
+SUCESSS RESPONSE
+{
+    "success": true,
+    "blog": {
+        "_id": "6915cba0f55ede99f44e9360",
+        "topic": " why women clothings are expensive",
+        "content": "women clothing is the peak topic in the fashion industry",
+        "category": "fashion",
+        "createdAt": "2025-11-13T12:14:24.054Z",
+        "updatedAt": "2025-11-13T12:18:20.628Z",
+        "__v": 0
+    }
+}
+
+4. Update blog (admin only)
+PATCH
+Update an existing blog. Authentication needed by admin
+
+REQUEST BODY 
+{
+	"category": "Country Issues"
+}
+
+SUCCESS RESPONSE
+{
+	"success": true,
+    "blog": {
+        "_id": "6917059c8b4fd7dde15315ff",
+        "topic": "Poverty rate in Nigeria",
+        "content": "The rate of poor masses in Nigeria keeps increasing daily. ",
+        "category": "Country Issues",
+        "createdAt": "2025-11-14T10:34:04.401Z",
+        "updatedAt": "2025-11-14T10:45:11.463Z",
+        "__v": 0
+	}
+}
+
+5. Delete Blog (admin only)
+DELETE
+Delete's a blog from database. Authentication needed by admin
+
+SUCCESS RESPONSE
+{
+	"success": true,
+	"message": "blog deleted successfully"
+}
+
+AUTHENTICATION FLOW:
+1. Register
+2. Login
+3. Copy the Token and place in header (Bearer with a space)
+4. If user: get all blogs, get single blog
+   If admin: create blog, get all blogs, get single blog, update , delete
+   In admin route: admin can delete user, get all users and get a user
+                   the user can only access the get user.
+
+
