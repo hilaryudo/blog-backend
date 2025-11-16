@@ -168,6 +168,6 @@ AUTHENTICATION FLOW:
 4. If user: get all blogs, get single blog
    If admin: create blog, get all blogs, get single blog, update , delete
    In admin route: admin can delete user, get all users and get a user
-                   the user can only access the get user.
+                   the user can only access the get user
 
 
